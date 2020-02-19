@@ -1,0 +1,17 @@
+= Jenkins views and setting up freestyle projects
+
+
+In order to run the scripts in this path, follow the instructions below:
+- Ensure you have at least Python 2.7.8 + installed
+- The scripts require no virtual environment to run
+- Run the scripts on your terminal as `python scriptname.py`
+
+[indent=0]
+----
+	$ python sample.py
+----
+
+
+
+= References
+- https://github.com/TrainingByPackt/Beginning-Jenkins[Jenkins fundamentals].
