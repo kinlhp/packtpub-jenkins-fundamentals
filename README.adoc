@@ -7,5 +7,5 @@ You also need Docker Compose.
 
 [indent=0]
 ----
-	$ sudo docker run --name jenkinsci --user root:root --publish 8080:8080 --volume ${HOME}/.docker/volumes/jenkins/data:/var/jenkins_home --volume /var/run/docker.sock:/var/run/docker.sock --env-file .env --detach --rm jenkinsci/blueocean
+	$ sudo docker-compose up --force-recreate --detach jenkins
 ----
