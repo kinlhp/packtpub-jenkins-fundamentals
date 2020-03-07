@@ -11,7 +11,7 @@ node('master') {
         }
 
         stage('Deployment') {
-            if (${env.BRANCH_NAME}.equals('master')) {
+            if (env.BRANCH_NAME == 'master') {
                 printMessage('Deploying the master branch')
             } else {
                 printMessage('No deployment configured for this branch')
