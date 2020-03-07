@@ -10,6 +10,14 @@ node('master') {
             sh 'python3 test_functions.py'
         }
 
+        stage('Deployment') {
+            if (${env.BRANCH_NAME}.equals('master')) {
+                printMessage('Deploying the master branch')
+            } else {
+                printMessage('No deployment configured for this branch')
+            }
+        }
+
         printMessage('Pipeline complete')
     }
 }
