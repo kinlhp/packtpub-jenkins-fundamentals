@@ -1,0 +1,27 @@
+node('master') {
+    stage('Fetch source code') {
+        git url: 'https://github.com/kinlhp/packtpub-jenkins-fundamentals.git'
+    }
+
+    dir('chapter05') {
+        printMessage('Running pipeline')
+
+        stage('Testing') {
+            sh 'python3 test_functions.py'
+        }
+
+        stage('Deployment') {
+            if (env.BRANCH_NAME == 'master') {
+                printMessage('Deploying the master branch')
+            } else {
+                printMessage('No deployment configured for this branch')
+            }
+        }
+
+        printMessage('Pipeline complete')
+    }
+}
+
+def printMessage(message) {
+    echo "${message}"
+}
