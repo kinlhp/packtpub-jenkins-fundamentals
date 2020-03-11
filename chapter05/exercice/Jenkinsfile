@@ -1,0 +1,32 @@
+node {
+    printMessage('Pipeline start')
+
+    stage('Fetch source code') {
+        git 'https://github.com/kinlhp/packtpub-jenkins-fundamentals.git'
+    }
+
+    dir('chapter05/exercice') {
+
+        stage('Install requirements') {
+            sh 'make install'
+        }
+
+        stage('Run tests') {
+            sh 'make jenkins_test'
+        }
+
+        stage('Deploy') {
+            if (env.BRANCH_NAME == 'master') {
+                printMessage('deploying master branch')
+            } else {
+                printMessage('no deployment specified for this branch')
+            }
+        }
+    }
+
+    printMessage('Pipeline end')
+}
+
+def printMessage(message) {
+    echo '${message}'
+}
