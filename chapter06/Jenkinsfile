@@ -1,0 +1,19 @@
+node {
+    stage('Might run on master node or node1 node') {
+        printMessage('Running')
+        sh 'sleep 15'
+        sh 'hostname'
+    }
+}
+
+node('node2') {
+    stage('On node2') {
+        printMessage('Running on node2 node')
+        sh 'sleep 15'
+        sh 'hostname'
+    }
+}
+
+def printMessage(message) {
+    echo "${message}"
+}

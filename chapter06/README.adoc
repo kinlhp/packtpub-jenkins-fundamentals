@@ -1,0 +1,99 @@
+= Packtpub - Jenkins Fundamentals
+
+
+
+== Starting master node on Docker container
+You also need Docker Compose.
+
+[indent=0]
+----
+	$ sudo docker-compose up --force-recreate --detach master
+----
+
+
+== Starting slave nodes on Docker container
+
+
+=== Starting first slave node
+
+[indent=0]
+----
+	$ sudo docker run --name node1 --network jenkins_network --volume /var/run/docker.sock:/var/run/docker.sock --user root:root --restart on-failure --tty --interactive openjdk:8-jdk-alpine /usr/bin/env sh
+
+	/ # ping -c 1 master
+
+	/ # <Ctrl+P+Q>
+----
+
+
+=== Starting second slave node
+
+[indent=0]
+----
+	$ sudo docker run --name node2 --network jenkins_network --volume /var/run/docker.sock:/var/run/docker.sock --user root:root --restart on-failure --tty --interactive openjdk:8-jdk-alpine /usr/bin/env sh
+
+	/ # ping -c 1 master
+
+	/ # ping -c 1 node1
+
+	/ # <Ctrl+P+Q>
+----
+
+NOTE: Use the shortcut `Ctrl+P+Q` to exit of the slave containers without stopping them
+
+
+== Setting up slave nodes on Docker container
+
+
+=== Setting up first slave node
+
+[indent=0]
+----
+	$ sudo docker exec --tty --interactive node1 /usr/bin/env sh
+
+	/ # apk add --no-cache openrc
+
+	/ # apk add --no-cache openssh
+
+	/ # rc-update add sshd
+
+	/ # rc-status
+
+	/ # vi /etc/ssh/sshd_config
+
+	/ # touch /run/openrc/softlevel
+
+	/ # /etc/init.d/sshd start
+
+	/ # /etc/init.d/sshd status
+
+	/ # <Ctrl+P+Q>
+----
+
+
+=== Setting up second slave node
+
+[indent=0]
+----
+	$ sudo docker exec --tty --interactive node2 /usr/bin/env sh
+
+	/ # apk add --no-cache openrc
+
+	/ # apk add --no-cache openssh
+
+	/ # rc-update add sshd
+
+	/ # rc-status
+
+	/ # vi /etc/ssh/sshd_config
+
+	/ # touch /run/openrc/softlevel
+
+	/ # /etc/init.d/sshd start
+
+	/ # /etc/init.d/sshd status
+
+	/ # <Ctrl+P+Q>
+----
+
+NOTE: Master node require that slave nodes allow `ssh` connection
