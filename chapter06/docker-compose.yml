@@ -1,0 +1,19 @@
+version: "3.7"
+networks:
+  jenkins_network:
+    name: jenkins_network
+    driver: bridge
+services:
+  master:
+    image: jenkinsci/blueocean:latest
+    container_name: master
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - jenkins_network
+    ports:
+      - 8080:8080
+    volumes:
+      - /home/kin/.docker/volumes/jenkins/data:${JENKINS_HOME}
+      - /var/run/docker.sock:/var/run/docker.sock
