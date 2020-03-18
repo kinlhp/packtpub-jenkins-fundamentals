@@ -1,0 +1,59 @@
+= Packtpub - Jenkins Fundamentals
+
+
+
+== Starting master node on Docker container
+You also need Docker Compose.
+
+[indent=0]
+----
+	$ sudo docker-compose up --force-recreate --detach master
+----
+
+
+== Starting slave node on Docker container
+
+
+=== Starting agent slave node
+
+[indent=0]
+----
+	$ sudo docker run --name agent --network jenkins_network --volume /var/run/docker.sock:/var/run/docker.sock --user root:root --restart on-failure --tty --interactive openjdk:8-jdk-alpine /usr/bin/env sh
+
+	/ # ping -c 1 master
+
+	/ # <Ctrl+P+Q>
+----
+
+NOTE: Use the shortcut `Ctrl+P+Q` to exit of the slave containers without stopping them
+
+
+== Setting up slave node on Docker container
+
+
+=== Setting up agent slave node
+
+[indent=0]
+----
+	$ sudo docker exec --tty --interactive agent /usr/bin/env sh
+
+	/ # apk add --no-cache openrc
+
+	/ # apk add --no-cache openssh
+
+	/ # rc-update add sshd
+
+	/ # rc-status
+
+	/ # vi /etc/ssh/sshd_config
+
+	/ # touch /run/openrc/softlevel
+
+	/ # /etc/init.d/sshd start
+
+	/ # /etc/init.d/sshd status
+
+	/ # <Ctrl+P+Q>
+----
+
+NOTE: Master node require that slave nodes allow `ssh` connection
